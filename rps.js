@@ -1,6 +1,10 @@
 // The Odin Project: Rock Paper Scissors
 // Alex Tresselt 6-12-22
 
+
+var playerScore = 0;
+var computerScore = 0;
+
 // Randomly returns "rock", "paper", or "scissors"
 function computerPlay() {
     const selections = ["rock", "paper", "scissors"];
@@ -51,7 +55,41 @@ function playRound(playerSelection, computerSelection) {
     return "Error: No Moves Found";
 }
 
+const container = document.querySelector('#container');
+const score = document.createElement('div');
+score.classList.add('content');
+score.textContent = "Ready to Play";
+container.appendChild(score);
+
+
+function playGame(choice) {
+
+    let result = playRound(choice, computerPlay);
+
+    if (result.includes("Win")) {
+        playerScore++;
+    } else if (result.includes("Lose")) {
+        computerScore++;
+    } else { // a tie or error has occurred
+    }
+    container.textContent = "Player " + playerScore + ":" + computerScore + " Computer";
+
+}
+
+btnRock.addEventListener('click', function (e) {
+    console.log(playRound("rock", computerPlay()));
+  });
+btnPaper.addEventListener('click', function (e) {
+  console.log(playRound("paper", computerPlay()));
+});
+btnScissors.addEventListener('click', function (e) {
+  console.log(playRound("scissors", computerPlay()));
+});
+
+
+
 // Plays a 5 round game, keeps score and reports winner and loser at the end
+/*  Removed for UI
 function game() {
 
     let playerScore = 0;
@@ -76,5 +114,9 @@ function game() {
     }
 }
 
+
+// Play Game
 console.log(game());
+
+*/
 
