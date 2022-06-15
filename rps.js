@@ -1,6 +1,6 @@
 // The Odin Project: Rock Paper Scissors
 // Alex Tresselt 6-12-22
-
+// 6-13-22 Added UI
 
 var playerScore = 0;
 var computerScore = 0;
@@ -55,35 +55,47 @@ function playRound(playerSelection, computerSelection) {
     return "Error: No Moves Found";
 }
 
+// Create new div to display game score
 const container = document.querySelector('#container');
 const score = document.createElement('div');
-score.classList.add('content');
+score.classList.add('score');
 score.textContent = "Ready to Play";
 container.appendChild(score);
 
-
+// Plays a round of the game and keeps score. When one player reaches 5 wins,
+// the winner is displayed and the score resets. 
 function playGame(choice) {
 
-    let result = playRound(choice, computerPlay);
-
+    let result = playRound(choice, computerPlay());
+    console.log(result);
     if (result.includes("Win")) {
         playerScore++;
     } else if (result.includes("Lose")) {
         computerScore++;
-    } else { // a tie or error has occurred
-    }
-    container.textContent = "Player " + playerScore + ":" + computerScore + " Computer";
+    } 
 
+    if (playerScore === 5) {
+        score.innerHTML = "You Win! Click to play again. ";
+        playerScore = 0;
+        computerScore = 0;
+    } else if (computerScore === 5) {
+        score.innerHTML = "Computer Wins! Click to play again. ";
+        playerScore = 0;
+        computerScore = 0;       
+    } else {
+        score.innerHTML = result + ". Score: Player " + playerScore + "-" + computerScore + " Computer";
+    }
 }
 
+// Sets the buttons to play a round of the game with the corresponding choice.
 btnRock.addEventListener('click', function (e) {
-    console.log(playRound("rock", computerPlay()));
+    playGame("rock");
   });
 btnPaper.addEventListener('click', function (e) {
-  console.log(playRound("paper", computerPlay()));
+  playGame("paper");
 });
 btnScissors.addEventListener('click', function (e) {
-  console.log(playRound("scissors", computerPlay()));
+  playGame("scissors");
 });
 
 
